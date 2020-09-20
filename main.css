@@ -39,8 +39,8 @@ body .social-networks .profile img{
 body .social-networks .profile span{
     padding-left:20px;
     position:relative;
+    color: black;
     top:-14px;
-    color:#FFF
 }
 body .social-networks div.playlists{
     position:relative;
@@ -50,7 +50,7 @@ body .social-networks div.playlists{
 body .social-networks div.playlists select{
     border:3px solid #FFF;
     padding:10px 20px;
-    color:#FFF;
+    color:black;
     background:transparent;
     border-radius:0;
     margin:20px 0;
@@ -76,7 +76,7 @@ body .social-networks div.playlists::after{
 body .social-networks input[type="text"]{
     border:3px solid #FFF;
     padding:10px 20px;
-    color:#FFF;
+    color:black;
     background:transparent;
     border-radius:0;
     margin:20px 0;
@@ -84,7 +84,7 @@ body .social-networks input[type="text"]{
     cursor:pointer
 }
 body .social-networks label{
-    color:#FFF;
+    color:black;
     font-size:14px
 }
 body #action-bar{

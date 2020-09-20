@@ -2,7 +2,7 @@ var config = {
 
   spotify: {
     clientId: "8c4aa610a98b41728a78698a1675fc80",
-    redirectUri: 'http://localhost:8888/callback'
+    redirectUri: 'http://localhost:3000/callback/'
   },
 
   youtube: {
