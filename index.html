@@ -1,100 +1,81 @@
 <!DOCTYPE html>
 <html lang="fr" ng-app="app">
 
-<head>
-	<meta charset="utf-8" />
-	<base href="http://localhost:3000">
+	<head>
+	    <meta charset="utf-8" />
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-	<title>Spotify to Youtube</title>
+	    <title>Spotify to Youtube</title>
 
-	<link href='//fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="./main.css">
-	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-	<link href="css/styles.css" rel="stylesheet">
-	<link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="node_modules/bootstrap-social/bootstrap-social.css">
+	    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+	    <link rel="stylesheet" href="./main.css">
 
-	<link rel="icon" type="image/png" href="./img/favicon.png" />
-</head>
+			<link rel="icon" type="image/png" href="./img/favicon.png" />
+	</head>
 
+	<body ng-controller="MainController">
 
-<body ng-controller="MainController">
+		<div class="social-networks" ng-if="!convertedPlaylist.loading && convertedPlaylist.progress == 0">
+	    <div class="spotify">
 
-	<div class="container">
+				<img src="./img/spotify.png" class="logo" alt="Spotify">
 
-		<div class="row row-content">
-			<div class="social-networks" ng-if="!convertedPlaylist.loading && convertedPlaylist.progress == 0">
-				<div class="col-12 col-sm-4">
-					<div class="spotify">
-						<h2>Connect Spotify</h2>
-						<button type="button" class="btn btn-dark btn-block" ng-if="spotifyUser == null" ng-click="spotifyLogin()">Sign in</button>
+	      <button ng-if="spotifyUser == null" ng-click="spotifyLogin()">Connect to your Spotify account</button>
 
-						<div class="profile" ng-if="spotifyUser != null">
-							<img src="{{ spotifyUser.images[0].url }}" alt="">
-							<span>Connected as {{ spotifyUser.display_name }}</span>
-						</div>
+	      <div class="profile" ng-if="spotifyUser != null">
+	        <img src="{{ spotifyUser.images[0].url }}" alt="">
+	        <span>Connected as {{ spotifyUser.display_name }}</span>
+	      </div>
 
-						<div class="playlists" ng-if="startingPlaylist.list != null">
-							<select ng-model="startingPlaylist.selected"
-								ng-options="pl.name for pl in startingPlaylist.list.items track by pl.id"
-								ng-change="updatePlaylistName()">
-							</select>
-						</div>
-					</div>
+	      <div class="playlists" ng-if="startingPlaylist.list != null">
+					<select ng-model="startingPlaylist.selected" ng-options="pl.name for pl in startingPlaylist.list.items track by pl.id" ng-change="updatePlaylistName()">
+	        </select>
+	      </div>
+
+	    </div>
+
+			<div class="youtube">
+
+				<img src="./img/youtube.png" class="logo" alt="Youtube">
+
+				<button ng-if="youtubeUser == null" ng-click="youtubeLogin()">Connect to your Youtube account</button>
+
+				<div class="profile" ng-if="youtubeUser != null">
+	        <img src="{{ youtubeUser.picture }}" alt="">
+	        <span>Connected as {{ youtubeUser.name }}</span>
+	      </div>
+
+				<div ng-if="youtubeUser != null">
+					<input type="text" ng-model="convertedPlaylist.name">
+					<br>
+					<input type="checkbox" ng-model="convertedPlaylist.karaokeMode" id="karaokeMode">&nbsp;<label for="karaokeMode">Karaoke mode</label>
 				</div>
 
-				<div class="col-12 col-sm-4">
-					<div class="youtube">
-						
-						<h2>Connect YouTube</h2>
-						<button type="button" class="btn btn-dark" ng-if="youtubeUser == null" ng-click="youtubeLogin()">Sign in</button>
-
-						<div class="profile" ng-if="youtubeUser != null">
-							<img src="{{ youtubeUser.picture }}" alt="">
-							<span>Connected as {{ youtubeUser.name }}</span>
-						</div>
-
-						<div ng-if="youtubeUser != null">
-							<input type="text" ng-model="convertedPlaylist.name">
-							<br>
-							<input type="checkbox" ng-model="convertedPlaylist.karaokeMode"
-								id="karaokeMode">&nbsp;<label for="karaokeMode">Karaoke mode</label>
-						</div>
-					</div>
-				</div>
-
-				<div class="loading" ng-if="convertedPlaylist.loading">
-					<div>
-						{{ convertedPlaylist.progress | number: 0 }} %
-					</div>
-				</div>
-
-				<div class="loaded" ng-if="!convertedPlaylist.loading && convertedPlaylist.progress == 100">
-					<div>
-						You're good to go, <a
-							href="https://www.youtube.com/playlist?list={{ convertedPlaylist.object.id }}"
-							target="_BLANK">here</a> is your playlist !
-					</div>
-				</div>
-				<div class="col-12 col-sm-4">
-					<h2>Go!</h2>
-					<div id="action-bar" ng-click="convert()" ng-class="{ disabled: !youtubeUser || !spotifyUser }"
-						ng-if="!convertedPlaylist.loading && convertedPlaylist.progress == 0">
-						Convert
-					</div>
-
-				</div>
 			</div>
 		</div>
-	</div>
-</body>
-<script src="http://localhost:35729/livereload.js"></script>
-<script src="./bower_components/angular/angular.min.js"></script>
-<script src="./bower_components/angular-spotify/dist/angular-spotify.min.js"></script>
-<script src="./bower_components/angular-google-gapi/dist/angular-google-gapi.js"></script>
-<script src="./config.js"></script>
-<script src="./main.js"></script>
 
+		<div class="loading" ng-if="convertedPlaylist.loading">
+			<div>
+				{{ convertedPlaylist.progress | number: 0 }} %
+			</div>
+		</div>
+
+		<div class="loaded" ng-if="!convertedPlaylist.loading && convertedPlaylist.progress == 100">
+			<div>
+				You're good to go, <a href="https://www.youtube.com/playlist?list={{ convertedPlaylist.object.id }}" target="_BLANK">here</a> is your playlist !
+			</div>
+		</div>
+
+		<div id="action-bar" ng-click="convert()" ng-class="{ disabled: !youtubeUser || !spotifyUser }" ng-if="!convertedPlaylist.loading && convertedPlaylist.progress == 0">
+			Convert
+		</div>
+
+	</body>
+
+	<script src="./bower_components/angular/angular.min.js"></script>
+	<script src="./bower_components/angular-spotify/dist/angular-spotify.min.js"></script>
+	<script src="./bower_components/angular-google-gapi/dist/angular-google-gapi.js"></script>
+  <script src="./config.js"></script>
+	<script src="./main.js"></script>
 </html>
