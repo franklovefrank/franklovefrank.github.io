@@ -6,7 +6,7 @@ var config = {
   },
 
   youtube: {
-    clientId: "453081527146-963q0bepql055r7i1u319b7j2hmk21tj.apps.googleusercontent.com"
+    clientId: "453081527146-963q0bepql055r7i1u319b7j2hmk21tj.apps.googleusercontent.com",
     scope: 'https://gdata.youtube.com'
   }
 
