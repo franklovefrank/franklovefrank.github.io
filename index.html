@@ -1,98 +1,93 @@
 <!DOCTYPE html>
-<html ng-app="app">
-
+<html>
 <head>
-	<meta charset="utf-8" />
-	<base href="http://localhost:3000">
-
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-	<title>Spotify to Youtube</title>
-
-	<link href='//fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="./main.css">
-	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-	<link href="css/styles.css" rel="stylesheet">
-	<link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="node_modules/bootstrap-social/bootstrap-social.css">
-
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="description" content="Website of Anna Claire Fields">
+  <meta name="author" content="Anna Claire Fields">
+	<title>Anna Claire Fields</title>
+	<link rel="stylesheet" href="assets/css/fonts-min.css">
+	<link rel="stylesheet" href="assets/vendor/slick/slick-theme.css">
+	<link rel="stylesheet" href="assets/vendor/slick/slick.css">
+	<link rel="stylesheet" href="assets/css/styles-min.css">
+	<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:400,400i" rel="stylesheet">
+	<script src="assets/js/jquery-3.3.1.min.js"></script>
+	<script src="assets/vendor/pace/pace.min.js"></script>
+	<script src="assets/vendor/masonry/masonry.pkgd.min.js"></script>
+	<script src="assets/vendor/slick/slick.min.js"></script>
+	<script src="assets/js/main-v2-min.js"></script>
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link rel="apple-touch-icon" sizes="57x57" href="assets/images/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="assets/images/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="assets/images/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/images/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="assets/images/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="assets/images/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="assets/images/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="assets/images/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="assets/images/favicon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="assets/images/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16x16.png">
+	<link rel="manifest" href="assets/images/favicon/manifest.json">
+	<meta name="msapplication-TileColor" content="#F9F9F7">
+	<meta name="msapplication-TileImage" content="assets/images/favicon/ms-icon-144x144.png">
+	<meta name="theme-color" content="#F9F9F7">
 </head>
-
-
-<body ng-controller="MainController">
-
-	<div class="container">
-
-		<div class="row row-content">
-			<div class="col-12 col-sm-4"></div>
-			<div class="social-networks" ng-if="!convertedPlaylist.loading && convertedPlaylist.progress == 0">
-					<div class="spotify">
-						<h2>Connect Spotify</h2>
-						<button ng-if="spotifyUser == null" ng-click="spotifyLogin()" type="button" class="btn btn-dark btn-block">Sign in</button>
-
-						<div class="profile" ng-if="spotifyUser != null">
-							<img src="{{ spotifyUser.images[0].url }}" alt="">
-							<span>Connected as {{ spotifyUser.display_name }}</span>
-						</div>
-
-						<div class="playlists" ng-if="startingPlaylist.list != null">
-							<select ng-model="startingPlaylist.selected"
-								ng-options="pl.name for pl in startingPlaylist.list.items track by pl.id"
-								ng-change="updatePlaylistName()">
-							</select>
-						</div>
-					</div>
+<body>
+	<div class="mouse" id="mouse">
+		<div class="mouse__pointer"></div>
+		<div class="mouse__text">
+			<div class="mouse__text-item">More</div>
+			<div class="mouse__text-item">
+				<div class="mouse__text-no">
+					<span>1</span>
+					<span>2</span>
+					<span>3</span>
+					<span>4</span>
+					<span>5</span>
+					<span>6</span>
+					<span>7</span>
 				</div>
-
-				<div class="col-12 col-sm-4">
-					<div class="youtube">
-						
-						<h2>Connect YouTube</h2>
-						<button type="button" class="btn btn-dark" ng-if="youtubeUser == null" ng-click="youtubeLogin()">Sign in</button>
-
-						<div class="profile" ng-if="youtubeUser != null">
-							<img src="{{ youtubeUser.picture }}" alt="">
-							<span>Connected as {{ youtubeUser.name }}</span>
-						</div>
-
-						<div ng-if="youtubeUser != null">
-							<input type="text" ng-model="convertedPlaylist.name">
-							<br>
-							<input type="checkbox" ng-model="convertedPlaylist.karaokeMode"
-								id="karaokeMode">&nbsp;<label for="karaokeMode">Karaoke mode</label>
-						</div>
-					</div>
-				</div>
-
-				<div class="loading" ng-if="convertedPlaylist.loading">
-					<div>
-						{{ convertedPlaylist.progress | number: 0 }} %
-					</div>
-				</div>
-
-				<div class="loaded" ng-if="!convertedPlaylist.loading && convertedPlaylist.progress == 100">
-					<div>
-						You're good to go, <a
-							href="https://www.youtube.com/playlist?list={{ convertedPlaylist.object.id }}"
-							target="_BLANK">here</a> is your playlist !
-					</div>
-				</div>
-				<div class="col-12 col-sm-4">
-					<h2>Go!</h2>
-					<div id="action-bar" ng-click="convert()" ng-class="{ disabled: !youtubeUser || !spotifyUser }"
-						ng-if="!convertedPlaylist.loading && convertedPlaylist.progress == 0">
-						Convert
-					</div>
-
-				</div>
+				<div class="mouse__text-total"> / 7</div>
 			</div>
 		</div>
 	</div>
-</body>
-<script src="./bower_components/angular/angular.min.js"></script>
-<script src="./bower_components/angular-spotify/dist/angular-spotify.min.js"></script>
-<script src="./bower_components/angular-google-gapi/dist/angular-google-gapi.js"></script>
-<script src="./config.js"></script>
-<script src="./main.js"></script>
+	<div class="global-container">
+		<div class="m-indicator">
+			<div class="mouse__text">
+				<div class="mouse__text-item">Click to see more</div>
+				<div class="mouse__text-item">
+					<div class="mouse__text-no">
+						<span>1</span>
+						<span>2</span>
+						<span>3</span>
+						<span>4</span>
+						<span>5</span>
+						<span>6</span>
+						<span>7</span>
+					</div>
+					<div class="mouse__text-total"> / 7</div>
+				</div>
+			</div>
+		</div>
+		<div class="btm">
+			<a class="btm__logo" href="/"><h1>Anna Claire Fields</h1></a>
+			<h2 class="btm__desc">Full Stack Web Developer</h2>
+			<a class="underline-a btm__a --email" href="mailto:acfields11@gmail.com">Talk</a>, <a class="underline-a btm__a --ig" href="https://github.com/franklovefrank" target="_blank">Stalk</a>
+		</div>
+		<div class="info"></div>
+		<div class="ig">
+			<p>github.com/franklovefrank</p>
+		</div>
+		<div class="email">
+			<p>annaclaire.fields@gmail.com</p>
+		</div>
 
+	<!-- global container -->
+	</div>
+</body>
 </html>
