@@ -201,8 +201,7 @@ p {
 .mouse__text {
 	position: absolute;
 	top: 8px;
-    left: 8px;
-    max-width: 32px;
+	left: 8px;
 	height: 32px;
 	overflow: hidden;
 	-webkit-transition: all .3s ease;
@@ -231,7 +230,7 @@ p {
 .mouse__text-total {
 	display: inline-block;
 	vertical-align: middle;
-    height: 32px;
+	height: 32px;
 	overflow: hidden
 }
 
